@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-
-# Copyright (c) 2017 Shunya Sato
+#
 # Author: Shunya Sato
+# Copyright (c) 2017 Shunya Sato
+#
+# MIT Lisence
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -25,11 +27,11 @@
 """
 Recommend to run this with anaconda.
 
-If you already have a version of anaconda installed, then create a new environment
-
 conda create -n haptSynth Python=3.5 anaconda
 source activate haptSynth
 conda install pyserial
+
+python hapytSynth.pyw
 
 """
 
@@ -296,13 +298,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def populatePort(self):
         self.comboBox_serial.clear()
         serials = []
-#        import serial.tools.list_ports
-#        #print list(serial.tools.list_ports.comports())
-#        serials += list(serial.tools.list_ports.comports())
-#        print(serials)
-#        for device in serials:
-#            self.comboBox_serial.addItem(device[0])
+        import serial.tools.list_ports
+        #print list(serial.tools.list_ports.comports())
+        serials += list(serial.tools.list_ports.comports())
+        print(serials)
+        for device in serials:
+            self.comboBox_serial.addItem(device[0])
+        # TODO: list_ports doesn't work under conda env ...?
         self.comboBox_serial.addItem("/dev/cu.usbmodem1411")
+
         # select last one as default
         nports = self.comboBox_serial.count()
         if nports != 0:
@@ -319,7 +323,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
-    app.setApplicationName("PiezoHapt Synth")
+    app.setApplicationName("haptSynth")
     form = MainWindow()
     form.show()
     app.exec_()
